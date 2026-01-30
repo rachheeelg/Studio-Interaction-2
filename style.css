@@ -1,16 +1,19 @@
+@font-face {
+    font-family: 'Degular Demo';
+    src: url('DegularDemo-Regular.woff') format('woff');
+}
 body {
-    font-family: 'ABCDiatype Semi Mono', monospace;
-    font-size: 18px;
+    font-family: 'Degular Demo', sans-serif;
+    font-size: 21px;
     line-height: 1.25;
-    background-color: #f0f0f0;
     
     display: flex;
     justify-content: center;
     align-items: center;
     min-height: 100vh;
     margin: 0;
-    padding-left: 10%;
-    padding-right: 10%;
+    padding-left: 12%;
+    padding-right: 12%;
 }
 
 p {
@@ -28,4 +31,40 @@ p {
     transform: translate(-50%, -50%);
     z-index: -1;
     object-fit: cover;
+}
+
+.grain-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 0;
+    pointer-events: none;
+    opacity: 0.4;
+}
+
+.grain-overlay:after {
+    content: "";
+    position: absolute;
+    top: -50%;
+    left: -50%;
+    width: 200%;
+    height: 200%;
+    background-image: url('grainy-paper.png');
+    background-repeat: repeat;
+    animation: grain 8s steps(10) infinite;
+}
+
+@keyframes grain {
+    0%, 100% { transform: translate(0, 0) }
+    10% { transform: translate(-5%, -10%) }
+    20% { transform: translate(-15%, 5%) }
+    30% { transform: translate(7%, -25%) }
+    40% { transform: translate(-5%, 25%) }
+    50% { transform: translate(-15%, 10%) }
+    60% { transform: translate(15%, 0%) }
+    70% { transform: translate(0%, 15%) }
+    80% { transform: translate(3%, 35%) }
+    90% { transform: translate(-10%, 10%) }
 }
