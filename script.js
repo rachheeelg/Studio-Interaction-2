@@ -18,3 +18,4 @@ hoverWords.forEach(word => {
         imagePopup.classList.remove('show');
     });
 });
+

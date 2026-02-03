@@ -1,0 +1,26 @@
+@font-face {
+    font-family: 'Degular Demo';
+    src: url('DegularDemo-Regular.woff') format('woff');
+}
+
+body {
+    font-family: 'Degular Demo', sans-serif;
+    font-size: 21px;
+    line-height: 1.25;
+    
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    margin: 0;
+    padding-left: 12%;
+    padding-right: 12%;
+}
+
+#container-3d {
+    width: 100vw !important;
+    height: 100vh !important;
+    position: absolute; 
+    top: 0; 
+    left: 0;
+}
