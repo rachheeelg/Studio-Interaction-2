@@ -7,20 +7,31 @@ body {
     font-family: 'Degular Demo', sans-serif;
     font-size: 21px;
     line-height: 1.25;
-    
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    min-height: 100vh;
     margin: 0;
-    padding-left: 12%;
-    padding-right: 12%;
+    padding: 0;
+    min-height: 100vh;
+    position: relative;
 }
 
-#container-3d {
+canvas {
+    position: fixed !important;
+    top: 0 !important;
+    left: 0 !important;
     width: 100vw !important;
     height: 100vh !important;
-    position: absolute; 
-    top: 0; 
-    left: 0;
+    z-index: 1 !important;
+}
+
+.text {
+    position: fixed !important;
+    bottom: 50px !important;
+    left: 50% !important;
+    transform: translateX(-50%);
+    text-align: center;
+    z-index: 10;
+    max-width: 76%;
+}
+
+.text p {
+    margin: 5px 0;
 }

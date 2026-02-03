@@ -3,24 +3,24 @@
     {
       "bufferView": 2,
       "componentType": 5126,
-      "count": 3223,
+      "count": 8458,
       "max": [
-        0.999999463558197,
-        0.9999982118606567,
-        1.0
+        128.55795288085938,
+        128.55796813964844,
+        128.55796813964844
       ],
       "min": [
-        -0.9999986290931702,
-        -0.999998927116394,
-        -1.0
+        -128.5579071044922,
+        -128.55792236328125,
+        -128.55796813964844
       ],
       "type": "VEC3"
     },
     {
       "bufferView": 2,
-      "byteOffset": 38676,
+      "byteOffset": 101496,
       "componentType": 5126,
-      "count": 3223,
+      "count": 8458,
       "max": [
         1.0,
         1.0,
@@ -36,7 +36,7 @@
     {
       "bufferView": 1,
       "componentType": 5126,
-      "count": 3223,
+      "count": 8458,
       "max": [
         1.0,
         1.0
@@ -50,39 +50,39 @@
     {
       "bufferView": 0,
       "componentType": 5125,
-      "count": 17664,
+      "count": 47958,
       "type": "SCALAR"
     }
   ],
   "asset": {
     "extras": {
-      "author": "Akshat (https://sketchfab.com/shooter24994)",
+      "author": "Shady Tex (https://sketchfab.com/ShadyTex4u)",
       "license": "CC-BY-4.0 (http://creativecommons.org/licenses/by/4.0/)",
-      "source": "https://sketchfab.com/3d-models/moon-4db2273f6dd943b8ad7fa5e3b1b2431a",
-      "title": "Moon"
+      "source": "https://sketchfab.com/3d-models/realistic-jupiter-993ba62a539e4c308e9e3137df454ed6",
+      "title": "Realistic Jupiter"
     },
-    "generator": "Sketchfab-16.62.0",
+    "generator": "Sketchfab-15.36.0",
     "version": "2.0"
   },
   "bufferViews": [
     {
       "buffer": 0,
-      "byteLength": 70656,
+      "byteLength": 191832,
       "name": "floatBufferViews",
       "target": 34963
     },
     {
       "buffer": 0,
-      "byteLength": 25784,
-      "byteOffset": 70656,
+      "byteLength": 67664,
+      "byteOffset": 191832,
       "byteStride": 8,
       "name": "floatBufferViews",
       "target": 34962
     },
     {
       "buffer": 0,
-      "byteLength": 77352,
-      "byteOffset": 96440,
+      "byteLength": 202992,
+      "byteOffset": 259496,
       "byteStride": 12,
       "name": "floatBufferViews",
       "target": 34962
@@ -90,49 +90,30 @@
   ],
   "buffers": [
     {
-      "byteLength": 173792,
+      "byteLength": 462488,
       "uri": "scene.bin"
     }
   ],
-  "extensionsRequired": [
-    "KHR_materials_pbrSpecularGlossiness"
-  ],
-  "extensionsUsed": [
-    "KHR_materials_pbrSpecularGlossiness"
-  ],
   "images": [
     {
-      "uri": "textures/Material.002_diffuse.jpeg"
+      "uri": "textures/Material_baseColor.jpeg"
     }
   ],
   "materials": [
     {
       "doubleSided": true,
-      "extensions": {
-        "KHR_materials_pbrSpecularGlossiness": {
-          "diffuseFactor": [
-            1.0,
-            1.0,
-            1.0,
-            1.0
-          ],
-          "diffuseTexture": {
-            "index": 0
-          },
-          "glossinessFactor": 0.19595917942265426,
-          "specularFactor": [
-            0.0,
-            0.0,
-            0.0
-          ]
-        }
-      },
-      "name": "Material.002"
+      "name": "Material",
+      "pbrMetallicRoughness": {
+        "baseColorTexture": {
+          "index": 0
+        },
+        "metallicFactor": 0.0
+      }
     }
   ],
   "meshes": [
     {
-      "name": "Sphere_Material.002_0",
+      "name": "Sphere_Material_0",
       "primitives": [
         {
           "attributes": {
@@ -154,16 +135,16 @@
       ],
       "matrix": [
         1.0,
+        6.842791131287157e-32,
+        -2.832769343193999e-16,
         0.0,
-        0.0,
-        0.0,
-        0.0,
-        2.220446049250313e-16,
+        -2.832769343193999e-16,
+        3.828568672208042e-16,
         -1.0,
         0.0,
-        0.0,
+        4.002661120305586e-32,
         1.0,
-        2.220446049250313e-16,
+        3.828568672208042e-16,
         0.0,
         0.0,
         0.0,
@@ -177,16 +158,16 @@
         2
       ],
       "matrix": [
-        1.0,
+        0.009999999776482582,
         0.0,
         0.0,
         0.0,
         0.0,
         0.0,
-        1.0,
+        0.009999999776482582,
         0.0,
         0.0,
-        -1.0,
+        -0.009999999776482582,
         0.0,
         0.0,
         0.0,
@@ -194,7 +175,7 @@
         0.0,
         1.0
       ],
-      "name": "4e326c5f7a3b4af4aecde4d916ae94c5.fbx"
+      "name": "164f3ef3a5354d2d99363d985d381246.fbx"
     },
     {
       "children": [
@@ -207,17 +188,17 @@
         4
       ],
       "matrix": [
-        100.0,
+        101.0,
         0.0,
         0.0,
         0.0,
         0.0,
-        -1.629206793918314e-05,
-        -99.99999999999868,
+        -1.6454988618574973e-05,
+        -100.99999999999866,
         0.0,
         0.0,
-        99.99999999999868,
-        -1.629206793918314e-05,
+        100.99999999999866,
+        -1.6454988618574973e-05,
         0.0,
         0.0,
         0.0,
@@ -228,7 +209,7 @@
     },
     {
       "mesh": 0,
-      "name": "Sphere_Material.002_0"
+      "name": "Sphere_Material_0"
     }
   ],
   "samplers": [
