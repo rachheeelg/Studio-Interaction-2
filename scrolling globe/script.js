@@ -1,8 +1,6 @@
 import * as THREE from 'three';
 import { GLTFLoader } from 'three/addons/loaders/GLTFLoader.js';
 
-console.log('Script started!');
-
 const scene = new THREE.Scene();
 scene.background = new THREE.Color(0x000000);
 
@@ -24,25 +22,25 @@ let jupiter;
 const gltfLoader = new GLTFLoader();
 
 gltfLoader.load(
-    './public/realistic_jupiter/scene.gltf',  // FIXED PATH
+    './public/realistic_jupiter/scene.gltf',
     (gltf) => {
         console.log('Jupiter loaded!');
         jupiter = gltf.scene;
-        jupiter.scale.set(3, 3, 3);
-        jupiter.position.set(0, 0, 0);
+        jupiter.scale.set(2, 2, 2);
+        jupiter.position.set(9, 9, 9);
         scene.add(jupiter);
     },
     (progress) => {
         console.log('Loading...', (progress.loaded / progress.total * 100) + '%');
     },
     (error) => {
-        console.error('Error:', error);
+        console.error('Error loading Jupiter:', error);
     }
 );
 
 function animate() {
     if (jupiter) {
-        jupiter.rotation.y += 0.003;
+        jupiter.rotation.y += 0.001;
     }
     renderer.render(scene, camera);
 }
