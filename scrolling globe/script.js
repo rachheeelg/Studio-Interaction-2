@@ -1,56 +1,50 @@
 import * as THREE from 'three';
 import { GLTFLoader } from 'three/addons/loaders/GLTFLoader.js';
 
+console.log('Script started!');
+
 const scene = new THREE.Scene();
-scene.background = new THREE.Color(0x1a1a1a);
+scene.background = new THREE.Color(0x000000);
 
 const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
+camera.position.z = 5;
 
-// Very bright lights to see the moon
-const ambientLight = new THREE.AmbientLight(0xffffff, 3);
+const ambientLight = new THREE.AmbientLight(0xffffff, 2);
 scene.add(ambientLight);
 
-const pointLight = new THREE.PointLight(0xffffff, 5);
-pointLight.position.set(10, 10, 10);
-scene.add(pointLight);
+const directionalLight = new THREE.DirectionalLight(0xffffff, 3);
+directionalLight.position.set(5, 3, 5);
+scene.add(directionalLight);
 
 const renderer = new THREE.WebGLRenderer({ antialias: true });
 renderer.setSize(window.innerWidth, window.innerHeight);
-renderer.setAnimationLoop(animate);
 document.body.appendChild(renderer.domElement);
 
-let moon;
+let jupiter;
 const gltfLoader = new GLTFLoader();
+
 gltfLoader.load(
-    './public/moon/scene.gltf',
+    './public/realistic_jupiter/scene.gltf',  // FIXED PATH
     (gltf) => {
-        moon = gltf.scene;
-        moon.scale.set(10, 10, 10);
-        moon.position.set(0, 0, 0);
-        
-        // Force materials to be visible
-        moon.traverse((child) => {
-            if (child.isMesh) {
-                child.material.emissive = new THREE.Color(0x444444);
-            }
-        });
-        
-        scene.add(moon);
-        console.log('Moon loaded!');
+        console.log('Jupiter loaded!');
+        jupiter = gltf.scene;
+        jupiter.scale.set(3, 3, 3);
+        jupiter.position.set(0, 0, 0);
+        scene.add(jupiter);
     },
     (progress) => {
         console.log('Loading...', (progress.loaded / progress.total * 100) + '%');
     },
     (error) => {
-        console.error('Error loading moon:', error);
+        console.error('Error:', error);
     }
 );
 
-camera.position.z = 3;
-
 function animate() {
-    if (moon) {
-        moon.rotation.y += 0.005;
+    if (jupiter) {
+        jupiter.rotation.y += 0.003;
     }
     renderer.render(scene, camera);
 }
+
+renderer.setAnimationLoop(animate);
