@@ -1,3 +1,14 @@
+const dialog = document.getElementById('my-dialog');
+const closeBtn = document.getElementById('close-dialog');
+
+window.addEventListener('load', () => {
+  dialog.showModal();
+});
+
+closeBtn.addEventListener('click', () => {
+  dialog.close();
+});
+
 const texts = {
   p1: `I live alone in a fourth-floor apartment on Belgrano Street, in Buenos Aires.\nLate one evening, a few months back, I heard a knock at my door.`,
   p2: `Dressed in gray and carrying a gray suitcase in his hand, he had an unassuming look about him. I saw at once that he was a foreigner. At first, he struck me as old; only later did I realize that I had been misled by his thin blond hair, which was, in a Scandinavian sort of way, almost white. During the course of our conversation, which was not to last an hour, I found out that he came from the Orkneys.`,
@@ -63,3 +74,5 @@ function onScroll() {
 
 window.addEventListener('scroll', onScroll, { passive: true });
 onScroll();
+
+
