@@ -10,7 +10,8 @@ body {
     animation: gradient 15s ease infinite;
     min-height: 100vh;
     color: #f1f1f1;
-    font-size: 1rem;
+    font-size: 1.2rem;
+    overflow-x: hidden;
 }
 
 @keyframes gradient {
@@ -19,7 +20,8 @@ body {
     100% { background-position: 0% 50%; }
 }
 
-.p1, .p2, .p3, .p4, .p5 {
+.p1, .p2, .p3, .p4, .p5, .p6, .p7 {
+    margin-top: 10%;
     margin-left: 10%;
     margin-right: 10%;
     display: block;

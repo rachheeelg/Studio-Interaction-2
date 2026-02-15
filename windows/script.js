@@ -15,7 +15,6 @@
   paragraphs.forEach(function(p) {
     const clean  = p.textContent.replace(/\s+/g, ' ').trim();
     const tokens = clean.split(' ');
-
     const html = tokens.map(function(token) {
       const letters = [...token].map(function(ch) {
         const safe = ch.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
@@ -23,22 +22,9 @@
       }).join('');
       return '<span class="word">' + letters + '</span>';
     }).join('');
-
     p.innerHTML = html;
     p._letters = Array.from(p.querySelectorAll('.letter'));
     p._words   = Array.from(p.querySelectorAll('.word'));
-  });
-
-  // Assign each letter a random scatter offset (position + rotation)
-  paragraphs.forEach(function(p) {
-    p._letters.forEach(function(l) {
-      const tx = (Math.random() - 0.5) * window.innerWidth * 0.8;
-      const ty = (Math.random() - 0.5) * 300;
-      const rot = (Math.random() - 0.5) * 60;
-      l.dataset.tx  = tx;
-      l.dataset.ty  = ty;
-      l.dataset.rot = rot;
-    });
   });
 
   function computeSpacing(p) {
@@ -47,7 +33,6 @@
     const letters  = p._letters;
     const words    = p._words;
     const gapSlots = letters.length + words.length;
-
     if (!letters.length || !gapSlots) return { trackStart: 0.5, trackEnd: 0.02 };
 
     letters.forEach(function(l) {
@@ -61,7 +46,6 @@
     p.style.width       = 'auto';
     p.style.marginLeft  = '0';
     p.style.marginRight = '0';
-
     void p.offsetWidth;
     const naturalWidth = p.scrollWidth;
 
@@ -69,32 +53,63 @@
     p.style.width       = '';
     p.style.marginLeft  = '';
     p.style.marginRight = '';
-
     void p.offsetWidth;
+
     const containerWidth = p.clientWidth;
     const endExtraPx     = Math.max(0, containerWidth - naturalWidth);
     const trackEnd       = (endExtraPx / gapSlots) / fontSize;
+    const startExtraPx   = Math.max(0, vw - naturalWidth);
+    const trackStart     = Math.max(trackEnd + 0.01, (startExtraPx / gapSlots) / fontSize);
 
-    const startExtraPx  = Math.max(0, vw - naturalWidth);
-    const trackStart    = Math.max(trackEnd + 0.01, (startExtraPx / gapSlots) / fontSize);
-
-    // Reset to scattered invisible state
-    letters.forEach(function(l) {
-      l.style.setProperty('--op', '0');
-      l.style.transform = 'translate(' + l.dataset.tx + 'px, ' + l.dataset.ty + 'px) rotate(' + l.dataset.rot + 'deg)';
-    });
-
+    letters.forEach(function(l) { l.style.setProperty('--op', '0'); });
     return { trackStart: trackStart, trackEnd: trackEnd };
   }
 
   paragraphs.forEach(function(p) {
     p._spacing = computeSpacing(p);
-    p.style.whiteSpace  = 'nowrap';
-    p.style.width       = '100vw';
-    p.style.marginLeft  = '0';
-    p.style.marginRight = '0';
-    p.style.overflow    = 'visible';
-    p.style.position    = 'relative';
+  });
+
+
+  function initScatter() {
+    const vw = window.innerWidth;
+    const vh = window.innerHeight;
+
+    paragraphs.forEach(function(p) {
+      p._letters.forEach(function(l) {
+        const rect = l.getBoundingClientRect();
+        l._homeX = rect.left + window.scrollX + rect.width  / 2;
+        l._homeY = rect.top  + window.scrollY + rect.height / 2;
+
+        l._scatterX = window.scrollX + Math.random() * vw;
+        l._scatterY = window.scrollY + Math.random() * vh;
+        l._rot      = (Math.random() - 0.5) * 120;
+      });
+
+      p._letters.forEach(function(l) {
+        const tx = l._scatterX - l._homeX;
+        const ty = l._scatterY - l._homeY;
+        l.style.transition = 'none';
+        l.style.transform  = 'translate(' + tx.toFixed(1) + 'px, ' + ty.toFixed(1) + 'px) rotate(' + l._rot.toFixed(1) + 'deg)';
+        l.style.setProperty('--op', '0.7');
+        l.style.setProperty('--ls', p._spacing.trackStart.toFixed(4) + 'em');
+      });
+
+      p._words.forEach(function(w) {
+        w.style.setProperty('--ws', p._spacing.trackStart.toFixed(4) + 'em');
+      });
+
+      p.style.whiteSpace  = 'nowrap';
+      p.style.width       = '100vw';
+      p.style.marginLeft  = '0';
+      p.style.marginRight = '0';
+      p.style.overflow    = 'visible';
+      p.style.position    = 'relative';
+    });
+  }
+
+  window.addEventListener('load', function() {
+    initScatter();
+    update();
   });
 
   const cue = document.createElement('div');
@@ -124,8 +139,7 @@
       const paraT = easeOutCubic(progress);
 
       if (!collapsed.has(idx)) {
-        const marginPct = 10;
-        const curMargin = lerp(0, marginPct, paraT);
+        const curMargin = lerp(0, 10, paraT);
         const curWidth  = lerp(100, 80, paraT);
         p.style.marginLeft  = curMargin + '%';
         p.style.marginRight = curMargin + '%';
@@ -146,15 +160,14 @@
         const raw = clamp(progress - (i / letters.length) * STAGGER, 0, 1);
         const t   = easeOutCubic(raw);
 
-        // Interpolate from scattered position back to 0,0
-        const tx  = parseFloat(letter.dataset.tx)  * (1 - t);
-        const ty  = parseFloat(letter.dataset.ty)  * (1 - t);
-        const rot = parseFloat(letter.dataset.rot) * (1 - t);
+        const tx  = (letter._scatterX - letter._homeX) * (1 - t);
+        const ty  = (letter._scatterY - letter._homeY) * (1 - t);
+        const rot = letter._rot * (1 - t);
 
+        letter.style.transition = 'opacity 5s ease, letter-spacing 2s cubic-bezier(0.16,1,0.3,1), transform 3s cubic-bezier(0.16,1,0.3,1)';
         letter.style.setProperty('--ls', lerp(s.trackStart, s.trackEnd, t).toFixed(4) + 'em');
-        letter.style.setProperty('--op', t.toFixed(4));
+        letter.style.setProperty('--op', lerp(0.7, 1, t).toFixed(4));
         letter.style.transform = 'translate(' + tx.toFixed(2) + 'px, ' + ty.toFixed(2) + 'px) rotate(' + rot.toFixed(2) + 'deg)';
-        letter.style.transition = 'opacity 0.6s ease, letter-spacing 1s cubic-bezier(0.16,1,0.3,1), transform 1s cubic-bezier(0.16,1,0.3,1)';
       });
 
       words.forEach(function(word) {
@@ -168,27 +181,20 @@
   function onResize() {
     collapsed.clear();
     paragraphs.forEach(function(p) {
-      p._letters.forEach(function(l) {
-        const tx = (Math.random() - 0.5) * window.innerWidth * 0.8;
-        const ty = (Math.random() - 0.5) * 300;
-        const rot = (Math.random() - 0.5) * 60;
-        l.dataset.tx  = tx;
-        l.dataset.ty  = ty;
-        l.dataset.rot = rot;
-      });
-      p.style.whiteSpace  = 'nowrap';
-      p.style.width       = '100vw';
-      p.style.marginLeft  = '0';
-      p.style.marginRight = '0';
-      p.style.overflow    = 'visible';
-      p.style.position    = 'relative';
+      p.style.whiteSpace  = '';
+      p.style.width       = '';
+      p.style.marginLeft  = '';
+      p.style.marginRight = '';
+      p.style.overflow    = '';
+      p.style.position    = '';
+      p._letters.forEach(function(l) { l.style.transform = ''; });
       p._spacing = computeSpacing(p);
     });
+    initScatter();
     update();
   }
 
   window.addEventListener('scroll', update, { passive: true });
   window.addEventListener('resize', onResize, { passive: true });
-  update();
 
 })();
