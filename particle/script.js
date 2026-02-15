@@ -31,7 +31,7 @@ class Paricle{
 
     draw(){
         this.ctx.beginPath();
-        this.ctx.fillRect(this.x, this.y, this.size, this.size)
+        this.ctx.fillRect(this.x, this.y, this.size, this.size);
     }
 
     update(){
@@ -48,7 +48,7 @@ class Paricle{
 
         this.x += (this.vx *= this.friction) + (this.originX - this.x) * this.ease;
         this.y += (this.vy *= this.friction) + (this.originY - this.y) * this.ease;
-        this.draw()
+        this.draw();
     }
 }
 
@@ -64,30 +64,39 @@ class Effect {
             radius: 3000,
             x: 0,
             y: 0
-        }
+        };
+
+        // Button reveal setup
+        this.btn = document.querySelector('.glass-btn');
+        this.btnRect = this.btn.getBoundingClientRect();
+
         window.addEventListener('mousemove', e => {
             this.mouse.x = e.clientX * window.devicePixelRatio;
-            this.mouse.y = e.pageY * window.devicePixelRatio;
-        })
+            this.mouse.y = e.clientY * window.devicePixelRatio; // fixed: was e.pageY
+        });
 
         window.addEventListener('resize', () => {
             canvas.width = window.innerWidth * window.devicePixelRatio;
             canvas.height = window.innerHeight * window.devicePixelRatio;
-            this.width = canvas.width
-            this.height = canvas.height
+            this.width = canvas.width;
+            this.height = canvas.height;
             canvas.style.width = `${window.innerWidth}px`;
             canvas.style.height = `${window.innerHeight}px`;
-        
+
+            // Recalculate button position on resize
+            this.btnRect = this.btn.getBoundingClientRect();
+
             this.particlesArray = [];
             this.init();
-        })
+        });
+
         this.init();
     }
 
     init(){
         for(let x = 0; x < this.width; x += this.gap){
             for(let y = 0; y < this.height; y += this.gap){
-                this.particlesArray.push(new Paricle(x, y, this))
+                this.particlesArray.push(new Paricle(x, y, this));
             }
         }
     }
@@ -97,12 +106,22 @@ class Effect {
         for(let i = 0; i < this.particlesArray.length; i++){
             this.particlesArray[i].update();
         }
+
+        // Check if cursor is near the button center and reveal it
+        const btnCenterX = (this.btnRect.left + this.btnRect.width / 2) * window.devicePixelRatio;
+        const btnCenterY = (this.btnRect.top + this.btnRect.height / 2) * window.devicePixelRatio;
+        const distToBtn = Math.hypot(this.mouse.x - btnCenterX, this.mouse.y - btnCenterY);
+
+        if(distToBtn < 150 * window.devicePixelRatio){
+            this.btn.classList.add('visible');
+        }
     }
 }
 
 let effect = new Effect(canvas.width, canvas.height, ctx);
+
 function animate(){
     effect.update();
-    requestAnimationFrame(animate)
+    requestAnimationFrame(animate);
 }
-animate()
+animate();

@@ -65,5 +65,7 @@ canvas {
 }
 
 .glass-btn:hover {
+    background: rgba(255, 255, 255, 0.7);
     transform: translateX(-50%) scale(1.05);
+    color: #ffffff;
 }
