@@ -1,0 +1,112 @@
+@font-face {
+  font-family: 'Degular Demo';
+  src: url('DegularDemo-Regular.woff') format('woff');
+  font-weight: normal;
+  font-style: normal;
+}
+
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  font-family: 'Degular Demo', sans-serif;
+  background-color: #6d4422;
+  color: white;
+  font-size: 19px;
+  line-height: 1.2;
+  min-height: 100vh;
+  overflow-x: hidden;
+}
+
+.fade-top {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 120px;
+  background: linear-gradient(to bottom, #6d4422 30%, transparent);
+  z-index: 10;
+  pointer-events: none;
+}
+
+.fade-bottom {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 120px;
+  background: linear-gradient(to top, #6d4422 30%, transparent);
+  z-index: 10;
+  pointer-events: none;
+}
+
+
+#scroll-container {
+  max-width: 640px;
+  margin: 0 auto;
+  padding: 160px 24px;
+}
+
+.passage {
+  opacity: 0;
+  transform: translateY(18px);
+  transition: opacity 0.7s ease, transform 0.7s ease;
+}
+
+.passage.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.passage p {
+  margin-bottom: 2.2em;
+  text-align: justify;
+  hyphens: auto;
+  -webkit-hyphens: auto;
+}
+
+#sentinel {
+  height: 1px;
+  width: 100%;
+}
+
+.glass-btn {
+  background: rgba(255, 224, 194, 0.56);
+  border-radius: 30px;
+  box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+  backdrop-filter: blur(7px);
+  -webkit-backdrop-filter: blur(7px);
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  padding: 10px 30px;
+  color: #000000;
+  font-size: 18px;
+  display: block;
+  cursor: pointer;
+  text-decoration: none;
+  transition: all 0.3s ease;
+  font-family: 'Degular Demo', sans-serif;
+  position: fixed;
+  bottom: 80px;
+  left: 50%;
+  transform: translateX(-50%);
+  opacity: 0;
+  pointer-events: none;
+}
+
+.glass-btn.visible {
+  opacity: 1;
+  pointer-events: all;
+}
+
+.glass-btn:hover {
+  background: rgba(255, 255, 255, 0.7);
+  transform: translateX(-50%) translateY(-2px);
+  box-shadow: 0 6px 40px rgba(0, 0, 0, 0.15);
+}
