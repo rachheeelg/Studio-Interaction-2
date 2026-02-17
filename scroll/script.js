@@ -82,7 +82,7 @@ window.addEventListener('scroll', () => {
   scrollTimer = setTimeout(() => {
     popupBtn.classList.add('visible');
     popupShown = true;
-  }, 3000);
+  }, 1000);
 }, { passive: true });
 
 addCycle();
